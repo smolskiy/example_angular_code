@@ -1,0 +1,138 @@
+<div class="admin-profile-wrapper" *ngIf="adminProfile">
+  <div class="admin-header">
+    <div class="admin-header-info">
+      <div class="admin-avatar">
+        {{ adminProfile.firstName | slice: 0:1 }}{{ adminProfile.lastName | slice: 0:1 }}
+      </div>
+      <div class="admin-name-group">
+        <div class="admin-name">{{ adminProfile.firstName }} {{ adminProfile.lastName }}</div>
+        <div class="admin-role">
+          {{ 'T_ROLES.' + adminProfile.role | uppercase | translate }}
+        </div>
+      </div>
+    </div>
+    <div class="admin-header-buttons">
+      <div class="buttons-group">
+        <tsp-stroked-button
+          [disabled]="!adminProfile.isTwoFactorAuthActivated"
+          (click)="disable2FA()"
+          [variant]="adminProfile.isTwoFactorAuthActivated ? 'default' : 'success'"
+        >
+          {{ status2fa | translate }}
+        </tsp-stroked-button>
+        <tsp-stroked-button [disabled]="true">
+          {{ 'T_BUTTONS.RESET_PASSWORD' | translate }}
+        </tsp-stroked-button>
+      </div>
+      <tsp-stroked-button [disabled]="true" variant="danger">
+        {{ 'T_BUTTONS.DEACTIVATE' | translate }}
+      </tsp-stroked-button>
+      <tsp-stroked-button variant="primary" rightIcon="pen" (click)="editAdminProfile()">
+        {{ 'T_BUTTONS.EDIT_PROFILE' | translate }}
+      </tsp-stroked-button>
+    </div>
+  </div>
+  <div class="admin-body">
+    <div class="info-block">
+      <div class="info-block-header">
+        {{ 'T_CONTACT_INFO.CONTACT' | translate }}
+      </div>
+      <div class="info-block-group">
+        <div class="info-block-label">
+          <svg-icon src="/assets/icons/small/email.svg"></svg-icon>
+        </div>
+        <div>
+          <div class="info-block-label">{{ 'T_FORMS.EMAIL' | translate }}</div>
+          <div class="info-block-text">{{ adminProfile.email }}</div>
+        </div>
+      </div>
+      <div class="info-block-group">
+        <svg-icon src="/assets/icons/small/phone.svg"></svg-icon>
+        <div>
+          <div class="info-block-label">
+            {{ 'T_FORMS.PHONE_NUMBER' | translate }}
+          </div>
+          <div class="info-block-text">
+            {{
+              adminProfile.phoneNumber ? (adminProfile.phoneNumber | mask: '(000) 000-0000') : '-'
+            }}
+          </div>
+        </div>
+      </div>
+      <div class="info-block-group">
+        <svg-icon src="/assets/icons/small/phone.svg"></svg-icon>
+        <div>
+          <div class="info-block-label">
+            {{ 'T_FORMS.BACKUP_PHONE' | translate }}
+          </div>
+          <div class="info-block-text">
+            {{
+              adminProfile.backupPhone ? (adminProfile.backupPhone | mask: '(000) 000-0000') : '-'
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="info-block">
+      <div class="info-block-header">
+        {{ 'T_CONTACT_INFO.PERSONAL_INFO' | translate }}
+      </div>
+      <div class="info-block-group">
+        <div>
+          <div class="info-block-label">
+            {{ 'T_FORMS.ROLE' | translate }}
+          </div>
+          <div class="info-block-text">
+            {{ 'T_ROLES.' + adminProfile.role | uppercase | translate }}
+          </div>
+        </div>
+      </div>
+      <div class="info-block-group">
+        <div>
+          <div class="info-block-label">
+            {{ 'T_FORMS.STATUS' | translate }}
+          </div>
+          <div class="info-block-text">
+            <tsp-status-badge [status]="adminProfile.status"></tsp-status-badge>
+          </div>
+        </div>
+      </div>
+      <div class="info-block-group">
+        <div>
+          <div class="info-block-label">
+            {{ 'T_FORMS.DESK_NUMBER' | translate }}
+          </div>
+          <div class="info-block-text">{{ adminProfile.deskPhone ?? '-' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-block-header">
+        {{ 'T_CONTACT_INFO.ORG' | translate }}
+      </div>
+      <div class="info-block-group">
+        <div>
+          <div class="info-block-label">
+            {{ 'T_FORMS.OFFICE_ID' | translate }}
+          </div>
+          <div class="info-block-text">{{ adminProfile.officeId ?? '-' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <div class="info-block-header">
+        {{ 'T_CONTACT_INFO.LOCATION' | translate }}
+      </div>
+      <div class="info-block-group">
+        <div>
+          <div class="info-block-label">
+            {{ 'T_FORMS.COUNTRY' | translate }}
+          </div>
+          <div class="info-block-text">{{ adminProfile.country || '-' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

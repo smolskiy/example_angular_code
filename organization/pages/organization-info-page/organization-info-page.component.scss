@@ -1,0 +1,92 @@
+@import "variables";
+@import "mixins";
+
+.block {
+  @include block;
+  overflow: hidden;
+}
+
+.title {
+  @include headingFontStyle(5);
+  margin-bottom: $space-25;
+}
+
+.organization-info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-25;
+  position: relative;
+  grid-template-areas:
+    "general-info general-info general-info contact-info"
+    "seat-licenses timestamps total-stamps total-storage"
+    "admin-contact-info admin-contact-info admin-contact-info admin-contact-info";
+}
+
+.header-button-wrapper {
+  position: absolute;
+  bottom: calc(100% + #{$space-30});
+  right: 0;
+
+  .reactive-button {
+    margin-right: $space-5;
+  }
+}
+
+.general-info {
+  grid-area: general-info;
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: $space-30 $space-15;
+  }
+}
+
+.contact-info {
+  grid-area: contact-info;
+}
+
+.seat-licenses {
+  grid-area: seat-licenses;
+}
+
+.total-stamps {
+  grid-area: total-stamps;
+}
+
+.timestamps {
+  grid-area: timestamps;
+}
+
+.total-storage {
+  grid-area: total-storage;
+}
+
+.admin-contact-info {
+  grid-area: admin-contact-info;
+}
+
+.label {
+  font-size: 14px;
+  color: $dark-grey-500;
+  margin-bottom: $space-5;
+}
+
+.bold-title {
+  font-size: 34px;
+  font-weight: $font-weight-bold;
+}
+
+.field-value {
+  font-size: 18px;
+  color: $blue-900;
+  margin-bottom: $space-15;
+}
+
+.contact-type {
+  grid-area: contact-type;
+}
+
+.bold-cell {
+  font-weight: $font-weight-bold;
+}

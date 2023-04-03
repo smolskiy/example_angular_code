@@ -1,0 +1,54 @@
+@import "variables";
+
+.edit-admin-profile {
+  background-color: $white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  .title {
+    font-size: 16px;
+    line-height: 24px;
+    color: $blue-900;
+    margin-bottom: $space-30;
+  }
+
+  .fields-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $space-30;
+  }
+
+  .actions-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-15;
+    width: 280px;
+    margin-left: auto;
+  }
+}
+
+.form-body {
+  padding: 25px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &-wrapper {
+    width: 400px;
+    margin-right: $space-60;
+  }
+}
+
+.form-footer {
+  border-top: 1px solid $dark-grey-300;
+  padding: 25px;
+  background-color: $dark-grey-100;
+
+  .buttons-wrapper {
+    place-content: flex-end;
+    display: grid;
+    gap: $space-15;
+    grid-template-columns: repeat(2, 135px);
+  }
+}

@@ -1,0 +1,71 @@
+<form class="edit-admin-profile" [formGroup]="adminEditForm" (ngSubmit)="saveForm()">
+  <div class="form-body">
+    <div class="form-body-wrapper">
+      <div class="title">{{ 'T_FORMS.REQUIRED_TOOLTIP' | translate }}</div>
+      <div class="fields-wrapper">
+        <tsp-form-field [invalid]="hasControlError(FormControl.FirstName)">
+          <div inputLabel>{{ 'T_FORMS.FIRSTNAME' | translate }}*</div>
+          <input
+            inputField
+            type="text"
+            [name]="FormControl.FirstName"
+            [formControlName]="FormControl.FirstName"
+          />
+          <div inputError>{{ getControlError(FormControl.FirstName) }}</div>
+        </tsp-form-field>
+        <tsp-form-field [invalid]="hasControlError(FormControl.LastName)">
+          <div inputLabel>{{ 'T_FORMS.LASTNAME' | translate }}*</div>
+          <input
+            inputField
+            type="text"
+            [name]="FormControl.LastName"
+            [formControlName]="FormControl.LastName"
+          />
+          <div inputError>{{ getControlError(FormControl.LastName) }}</div>
+        </tsp-form-field>
+        <tsp-form-field [invalid]="hasControlError(FormControl.Email)">
+          <div inputLabel>{{ 'T_FORMS.EMAIL' | translate }}*</div>
+          <input
+            inputField
+            type="text"
+            [name]="FormControl.Email"
+            [formControlName]="FormControl.Email"
+          />
+          <div inputError>{{ getControlError(FormControl.Email) }}</div>
+        </tsp-form-field>
+        <tsp-form-field [invalid]="hasControlError(FormControl.PhoneNumber)">
+          <div inputLabel>{{ 'T_FORMS.PHONE_NUMBER' | translate }}</div>
+          <input
+            inputField
+            type="text"
+            [name]="FormControl.PhoneNumber"
+            [formControlName]="FormControl.PhoneNumber"
+          />
+          <div inputError>{{ getControlError(FormControl.PhoneNumber) }}</div>
+        </tsp-form-field>
+        <tsp-form-field>
+          <div inputLabel>{{ 'T_FORMS.ROLE' | translate }}*</div>
+          <select inputField [formControlName]="FormControl.Role" [name]="FormControl.Role">
+            <option
+              *ngFor="let role of availableRoles"
+              [value]="role"
+              [selected]="role === initialRoleValue"
+            >
+              {{ 'T_ROLES.' + role | uppercase | translate }}
+            </option>
+          </select>
+        </tsp-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="form-footer">
+    <div class="buttons-wrapper">
+      <tsp-button variant="outline" width="fullWidth" (click)="closeMenu()">
+        {{ 'T_BUTTONS.CANCEL' | translate }}
+      </tsp-button>
+      <tsp-button submit [disabled]="adminEditForm.invalid" [loading]="isLoading" width="fullWidth">
+        {{ 'T_BUTTONS.SAVE' | translate }}
+      </tsp-button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,38 @@
+<div class="stats-container">
+  <ng-container *ngIf="!isLoading; else loadingTemplate">
+    <div class="stats-item" *ngFor="let item of statistic">
+      <tsp-stats-chart [statistic]="item" @fadeAnimation></tsp-stats-chart>
+    </div>
+  </ng-container>
+  <ng-template #loadingTemplate>
+    <ng-template *tspDuplicateTemplate="1" [ngTemplateOutlet]="skeletonLineTemplate"></ng-template>
+    <ng-template *tspDuplicateTemplate="3" [ngTemplateOutlet]="skeletonBarsTemplate"></ng-template>
+  </ng-template>
+</div>
+
+<ng-template #skeletonLineTemplate>
+  <div class="stats-item skeleton">
+    <div>
+      <tsp-skeleton-loader width="56px" height="56px" radius="full"></tsp-skeleton-loader>
+    </div>
+    <div class="skeleton-text-container">
+      <tsp-skeleton-loader width="150px" height="14px" margin="5px 0"></tsp-skeleton-loader>
+      <tsp-skeleton-loader width="50px" height="24px" margin="4px 0"></tsp-skeleton-loader>
+    </div>
+    <div class="skeleton-chart-container">
+      <tsp-skeleton-loader width="56px" height="56px"></tsp-skeleton-loader>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #skeletonBarsTemplate>
+  <div class="stats-item skeleton">
+    <div class="skeleton-text-container">
+      <tsp-skeleton-loader width="100px" height="14px" margin="5px 0"></tsp-skeleton-loader>
+      <tsp-skeleton-loader width="50px" height="24px" margin="4px 0"></tsp-skeleton-loader>
+    </div>
+    <div class="skeleton-chart-container">
+      <tsp-skeleton-loader width="70px" height="56px"></tsp-skeleton-loader>
+    </div>
+  </div>
+</ng-template>

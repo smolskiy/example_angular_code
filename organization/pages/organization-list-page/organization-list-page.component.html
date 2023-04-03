@@ -1,0 +1,64 @@
+<div class="stats-wrapper">
+  <tsp-organization-stats-list></tsp-organization-stats-list>
+</div>
+<div class="wrapper">
+  <div class="filter-group">
+    <input
+      type="text"
+      class="datepicker"
+      [placeholder]="'T_FILTER.CONTRACT_DATE' | translate"
+      bsDaterangepicker
+      [bsConfig]="bsConfig"
+      (bsValueChange)="dateChange($event || [])"
+    />
+    <tsp-stroked-select
+      icon="status"
+      [options]="statusOptions"
+      (selectOption)="filterQueryChange(QueryParams.Status, $event)"
+    ></tsp-stroked-select>
+    <tsp-stroked-select
+      icon="sticker"
+      [options]="typeOfContractOptions"
+      (selectOption)="filterQueryChange(QueryParams.ContractType, $event)"
+    ></tsp-stroked-select>
+    <div class="search-container">
+      <tsp-search
+        [typeaheadData]="typeaheadData"
+        (search)="search($event)"
+        (queryChange)="getTypeaheadData($event)"
+        placeholder="T_PLACEHOLDERS.SEARCH_BY_NAME"
+      ></tsp-search>
+    </div>
+  </div>
+
+  <tsp-table [loading]="isLoading" [columnData]="columnTable" [data]="organizations?.data">
+    <ng-template tspTableRowTemplate let-cell>
+      <tr (click)="navigateToOrganization(cell)">
+        <td>{{ cell[Cell.Name] }}</td>
+        <td>{{ cell[Cell.ContractStartDate] | date: 'yyyy/MM/dd' }}</td>
+        <td>{{ cell[Cell.ContractEndDate] | date: 'yyyy/MM/dd' }}</td>
+        <td class="type-of-contact" [ngClass]="cell[Cell.ContactType] | lowercase">
+          {{ cell[Cell.ContactType] }}
+        </td>
+        <td>
+          <tsp-status-badge [status]="cell[Cell.Status]"></tsp-status-badge>
+        </td>
+        <td>{{ cell[Cell.TotalSeatLicenses] }}</td>
+      </tr>
+    </ng-template>
+  </tsp-table>
+  <tsp-not-found-block
+    *ngIf="isNotFound"
+    heading="T_SEARCH.NO_SUBMISSIONS"
+    description="T_SEARCH.REFINE_FILTERS"
+  ></tsp-not-found-block>
+  <tsp-pagination
+    *ngIf="organizations"
+    [totalItems]="organizations.count"
+    [itemsPerPage]="itemsPerPage"
+    [meta]="organizations.meta"
+    (pageChange)="pageChange($event)"
+    (limitChange)="changeLimit($event)"
+    showItemsPerPage
+  ></tsp-pagination>
+</div>

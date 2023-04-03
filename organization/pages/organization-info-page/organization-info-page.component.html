@@ -1,0 +1,181 @@
+<div class="organization-info" *ngIf="organization">
+  <div class="header-button-wrapper">
+    <tsp-button
+      *ngIf="!isDeactivated"
+      color="danger"
+      variant="outline"
+      rightIcon="trash"
+      class="reactive-button"
+      [loading]="isDeactivateLoading"
+      (click)="deleteOrganization()"
+    >
+      {{ 'T_ORGANIZATION.DELETE' | translate }}
+    </tsp-button>
+    <span class="reactive-button">
+      <tsp-button
+        *ngIf="isDeactivated"
+        color="primary"
+        variant="filled"
+        (click)="reactivateOrganisation()"
+      >
+        {{ 'T_BUTTONS.REACTIVATE_ORGANIZATION' | translate }}
+      </tsp-button>
+    </span>
+    <ng-container *ngIf="isDeactivated">
+      <tsp-button
+        *ngIf="!isStartScheduleKeyDeleteAt; else cancelDelete"
+        [disabled]="!isAvailableScheduleDeleteKey"
+        color="danger"
+        variant="filled"
+        [loading]="isActionKeyLoading"
+        (click)="actionOrgKey(scheduleActionKey)"
+      >
+        {{ 'T_BUTTONS.SCHEDULE_KEY_DELETION' | translate }}
+      </tsp-button>
+      <ng-template #cancelDelete>
+        <tsp-button
+          color="success"
+          variant="outline"
+          [loading]="isActionKeyLoading"
+          (click)="actionOrgKey(cancelScheduleActionKey)"
+        >
+          {{ 'T_BUTTONS.CANCEL_SCHEDULE_KEY_DELETION' | translate }}
+        </tsp-button>
+      </ng-template>
+    </ng-container>
+  </div>
+  <div class="general-info block">
+    <div class="title">{{ 'T_ORGANIZATION.GENERAL_INFO' | translate }}</div>
+    <div class="general-info-grid">
+      <div>
+        <div class="label">
+          {{ 'T_ORGANIZATION.VALUE' | translate: { value: 'T_ORGANIZATION.NAME' | translate } }}:
+        </div>
+        <div class="field-value">{{ organization.name ?? '-' }}</div>
+      </div>
+      <div>
+        <div class="label">
+          {{ 'T_ORGANIZATION.VALUE' | translate: { value: 'T_ORGANIZATION.CODE' | translate } }}:
+        </div>
+        <div class="field-value">{{ organization.code ?? '-' }}</div>
+      </div>
+      <div>
+        <div class="label">
+          {{
+            'T_ORGANIZATION.VALUE' | translate: { value: 'T_ORGANIZATION.NICKNAME' | translate }
+          }}:
+        </div>
+        <div class="field-value">
+          {{ !isDeactivated ? organization.nickName || '-' : '-' }}
+        </div>
+      </div>
+      <div>
+        <div class="label">{{ 'T_ORGANIZATION.COUNTRY' | translate }}:</div>
+        <div class="field-value">
+          {{ !isDeactivated ? organization.country || '-' : '-' }}
+        </div>
+      </div>
+      <div>
+        <div class="label">{{ 'T_ORGANIZATION.TYPE_OF_CONTACT' | translate }}:</div>
+        <div
+          [class.contact-type]="!isDeactivated"
+          [ngClass]="organization.contractType | lowercase"
+        >
+          <i></i>{{ !isDeactivated ? organization.contractType : '-' }}
+        </div>
+      </div>
+      <div>
+        <div class="label">{{ 'T_ORGANIZATION.STATUS' | translate }}:</div>
+        <div>
+          <tsp-status-badge [status]="organization.status"></tsp-status-badge>
+        </div>
+      </div>
+      <div>
+        <div class="label">{{ 'T_ORGANIZATION.CONTRACT_START_DATE' | translate }}:</div>
+        <div class="field-value" *ngIf="!isDeactivated">
+          {{ organization.contractStartDate | date: 'yyyy/MM/dd' }}
+        </div>
+        <div class="field-value" *ngIf="isDeactivated">-</div>
+      </div>
+      <div>
+        <div class="label">{{ 'T_ORGANIZATION.CONTRACT_END_DATE' | translate }}:</div>
+        <div class="field-value" *ngIf="!isDeactivated">
+          {{ organization.contractEndDate | date: 'yyyy/MM/dd' }}
+        </div>
+        <div class="field-value" *ngIf="isDeactivated">-</div>
+      </div>
+      <div>
+        <div class="label">{{ 'T_ORGANIZATION.INACTIVE_FROM' | translate }}:</div>
+        <div class="field-value">
+          {{ isDeactivated ? '-' : organization.inactiveFrom ?? '-' }}
+        </div>
+      </div>
+      <div>
+        <div class="label">{{ 'T_ORGANIZATION.INACTIVE_FOR' | translate }}:</div>
+        <div class="field-value">
+          {{ isDeactivated ? '-' : organization.inactiveFor + ' days' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-info block">
+    <tsp-contact-info
+      label="T_ORGANIZATION.BACKUP_CONTACT"
+      [disabled]="isDeactivated"
+      [user]="organization.backupUser || null"
+    ></tsp-contact-info>
+  </div>
+
+  <div class="seat-licenses block">
+    <tsp-seat-licenses-info
+      [deactivated]="isDeactivated || !organization.seatLicenses"
+      [seatLicenses]="organization.seatLicenses"
+    ></tsp-seat-licenses-info>
+  </div>
+
+  <div class="timestamps block">
+    <tsp-timestamp-chart
+      [statistic]="organization.timestamps?.monthly"
+      [disabled]="isDeactivated || !organization.timestamps"
+    ></tsp-timestamp-chart>
+  </div>
+
+  <div class="total-stamps block">
+    <tsp-usage-circle
+      label="T_ORGANIZATION.TOTAL_TIMESTAMPS"
+      [available]="organization.timestamps?.available"
+      [active]="organization.timestamps?.active"
+      [disabled]="isDeactivated || !organization.timestamps"
+    ></tsp-usage-circle>
+  </div>
+
+  <div class="total-storage block">
+    <tsp-usage-circle
+      label="T_ORGANIZATION.TOTAL_STORAGE"
+      [available]="organization.totalStorage?.available"
+      [active]="organization.totalStorage?.active"
+      units="GB"
+      [disabled]="isDeactivated || !organization.totalStorage"
+    ></tsp-usage-circle>
+  </div>
+
+  <div class="admin-contact-info block">
+    <div class="title">
+      {{ 'T_ORGANIZATION.ADMIN_CONTACT_INFO' | translate }}
+    </div>
+    <tsp-table [columnData]="tableColumns" [data]="isDeactivated ? [] : organization.users">
+      <ng-template tspTableRowTemplate let-cell>
+        <tr (click)="navigateToAdminPage(cell)">
+          <td>{{ cell[Cell.FirstName] }}</td>
+          <td>{{ cell[Cell.LastName] }}</td>
+          <td class="bold-cell">
+            {{ 'T_ROLES.' + cell[Cell.Role] | uppercase | translate }}
+          </td>
+          <td>{{ cell[Cell.Email] }}</td>
+          <td>{{ cell[Cell.PhoneNumber] | mask: '(000) 000-0000' }}</td>
+        </tr>
+      </ng-template>
+    </tsp-table>
+  </div>
+</div>

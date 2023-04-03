@@ -1,0 +1,47 @@
+@import "variables";
+@import "mixins";
+
+.wrapper, .stats-block {
+  @include block;
+}
+
+.stats-wrapper {
+  margin-bottom: $space-25;
+}
+
+.type-of-contact {
+  &:before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-bottom: 2px;
+    border-radius: 50%;
+  }
+
+  &.yearly {
+    color: $blue-500;
+
+    &:before {
+      background-color: $blue-500;
+    }
+  }
+
+  &.monthly {
+    color: $azure-blue-200;
+
+    &:before {
+      background-color: $azure-blue-200;
+    }
+  }
+}
+
+.filter-group {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 25px;
+
+  .search-container {
+    flex-basis: 380px;
+  }
+}

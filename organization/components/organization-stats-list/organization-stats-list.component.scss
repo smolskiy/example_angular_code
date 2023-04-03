@@ -1,0 +1,22 @@
+@import "variables";
+@import "mixins";
+
+.stats-container {
+  display: flex;
+  gap: $space-25;
+  flex-wrap: wrap;
+
+  .stats-item {
+    flex: 1 1 0;
+    @include block();
+
+    &.skeleton {
+      display: flex;
+      gap: $space-15;
+
+      .skeleton-chart-container {
+        margin-left: auto;
+      }
+    }
+  }
+}
